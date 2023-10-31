@@ -93,8 +93,8 @@ bool update_external_api_data(QSharedPointer<QSqlDatabase> &db, ExternalApiData 
     {
         QSqlQuery query;
         query.prepare("update api_data "
-                      "set start_path = :start_path "
-                      "set stop_path = :stop_path "
+                      "set start_api = :start_path "
+                      "set stop_api = :stop_path "
                       "set req_data = :req_data "
                       "where base_url_pk = :base_url_pk");
         query.bindValue(":start_path", api_data.start_api_path);
@@ -119,7 +119,7 @@ ExternalApiData get_external_api_data_by_base_url(QSharedPointer<QSqlDatabase> &
     if (db->isOpen())
     {
         QSqlQuery query;
-        query.prepare("select start_path, stop_path, req_data, base_url_pk "
+        query.prepare("select start_api, stop_api, req_data, base_url_pk "
                       "from api_data where base_url_pk = :base_url_pk limit 1;");
         query.bindValue(":base_url_pk", base_url_pk);
         auto res = query.exec();
