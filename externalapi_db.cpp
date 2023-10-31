@@ -119,12 +119,14 @@ ExternalApiData get_external_api_data_by_base_url(QSharedPointer<QSqlDatabase> &
     if (db->isOpen())
     {
         QSqlQuery query;
-        query.exec("select start_path, stop_path, req_data, base_url_pk "
-                   "from api_data where base_url_pk = :base_url_pk limit 1;");
+        query.prepare("select start_path, stop_path, req_data, base_url_pk "
+                      "from api_data where base_url_pk = :base_url_pk limit 1;");
         query.bindValue(":base_url_pk", base_url_pk);
+        auto res = query.exec();
         
-        if (query.first())
+        if (res)
         {
+            query.first();
             result.start_api_path = query.value(0).toString();
             result.stop_api_path = query.value(1).toString();
             result.req_data = query.value(2).toString();
@@ -191,12 +193,14 @@ ExternalApiToken get_external_api_token_by_base_url(QSharedPointer<QSqlDatabase>
     if (db->isOpen())
     {
         QSqlQuery query;
-        query.exec("select kind, token, base_url_pk "
+        query.prepare("select kind, token, base_url_pk "
                    "from api_token where base_url_pk = :base_url_pk limit 1;");
         query.bindValue(":base_url_pk", base_url_pk);
+        auto res = query.exec();
         
-        if (query.first())
+        if (res)
         {
+            query.first();
             result.kind = query.value(0).toString();
             result.token = query.value(1).toString();
             result.base_url_pk = query.value(2).toInt();
