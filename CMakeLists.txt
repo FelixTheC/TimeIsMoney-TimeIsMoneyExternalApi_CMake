@@ -12,7 +12,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_PREFIX_PATH "/home/felix/Qt/6.5.0/gcc_64")
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-set(IsLibrary OFF)
+set(IsLibrary ON)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Widgets Sql Network)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Widgets Sql Network)
@@ -30,8 +30,8 @@ if (IsLibrary)
             externalapi_send.cpp
     )
 else ()
-    link_directories(../TimeIsMoneyDB_CMake/cmake-build-debug)
-    include_directories(../TimeIsMoneyDB_CMake)
+    link_directories(/home/felix/QtProjects/TimeIsMoney_CMake/TimeIsMoney-TimeIsMoneyDB_CMake)
+    include_directories(/home/felix/QtProjects/TimeIsMoney_CMake/TimeIsMoney-TimeIsMoneyDB_CMake)
 
     set(PROJECT_SOURCES
             main.cpp
@@ -68,7 +68,7 @@ else ()
             Qt${QT_VERSION_MAJOR}::Widgets
             Qt${QT_VERSION_MAJOR}::Sql
             Qt${QT_VERSION_MAJOR}::Network
-            /home/felix/QtProjects/TimeIsMoney_CMake/TimeIsMoneyDB_CMake/cmake-build-debug/libTimeIsMoneyDB_CMake.so
+            /home/felix/QtProjects/TimeIsMoney_CMake/cmake-build-debug/TimeIsMoney-TimeIsMoneyDB_CMake/libTimeIsMoneyDB_CMake.so
     )
 endif ()
 

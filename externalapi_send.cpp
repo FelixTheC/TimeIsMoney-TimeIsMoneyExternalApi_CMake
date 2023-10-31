@@ -4,7 +4,7 @@
 /// @param db pointer to a QSqlDatabase
 /// @param net_manager the QNetworkAccessManager as parameter to be able to use signals.
 /// @param send_topic send either `start` or `stop` to external api
-void send_cmd(QSharedPointer<QSqlDatabase> &db, QSharedPointer<QNetworkAccessManager> &net_manager, SendTopic &send_topic)
+void send_cmd(QSharedPointer<QSqlDatabase> &db, QSharedPointer<QNetworkAccessManager> &net_manager, const SendTopic &send_topic)
 {
     auto base_url = get_base_url_external_api_base_url(db);
     
@@ -13,7 +13,7 @@ void send_cmd(QSharedPointer<QSqlDatabase> &db, QSharedPointer<QNetworkAccessMan
         auto api_token = get_external_api_token_by_base_url(db, base_url.pk);
         auto api_data = get_external_api_data_by_base_url(db, base_url.pk);
         
-        if (!api_token.token.isEmpty() && !api_data.start_api_path.isEmpty() && !api_data.req_data.isEmpty())
+        if (!api_token.is_empty() && !api_data.is_empty())
         {
             QNetworkRequest net_req {base_url.base_url + api_data.start_api_path};
             
