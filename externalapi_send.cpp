@@ -35,7 +35,7 @@ void send_cmd(QSharedPointer<QSqlDatabase> &db, QSharedPointer<QNetworkAccessMan
             auto start_cmd_doc = QJsonDocument();
             auto start_cmd_obj = json_val.toObject();
             
-            start_cmd_obj.insert(api_token.kind, QJsonValue(api_token.token));
+            start_cmd_obj.insert(api_token.kind.toLower(), QJsonValue(api_token.token));
             start_cmd_doc.setObject(start_cmd_obj);
             
             net_manager->post(net_req, start_cmd_doc.toJson(QJsonDocument::Compact));
