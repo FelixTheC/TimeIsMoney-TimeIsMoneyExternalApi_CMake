@@ -24,6 +24,6 @@ enum class SendTopic
 /// @param db pointer to a QSqlDatabase
 /// @param net_manager the QNetworkAccessManager as parameter to be able to use signals.
 /// @param send_topic send either `start` or `stop` to external api
-void send_cmd(QSharedPointer<QSqlDatabase> &db, QSharedPointer<QNetworkAccessManager> &net_manager, SendTopic &send_topic);
+void send_cmd(QSharedPointer<QSqlDatabase> &db, QSharedPointer<QNetworkAccessManager> &net_manager, const SendTopic &send_topic);
 
 #endif //TIMEISMONEYEXTERNALAPI_CMAKE_EXTERNALAPI_SEND_HPP
