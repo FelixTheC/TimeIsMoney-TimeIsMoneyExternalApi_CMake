@@ -69,7 +69,7 @@ bool insert_into_external_api_data(QSharedPointer<QSqlDatabase> &db, ExternalApi
     if (db->isOpen() && !api_data.is_empty())
     {
         QSqlQuery query;
-        query.prepare("insert into api_data (start_api, stop_api, req_dat, base_url_pk)"
+        query.prepare("insert into api_data (start_api, stop_api, req_data, base_url_pk)"
                       "values (:start_path, :stop_path, :req_data, :base_url_pk);");
         query.bindValue(":start_path", api_data.start_api_path);
         query.bindValue(":stop_path", api_data.stop_api_path);

@@ -16,6 +16,7 @@ void send_cmd(QSharedPointer<QSqlDatabase> &db, QSharedPointer<QNetworkAccessMan
         if (!api_token.is_empty() && !api_data.is_empty())
         {
             QNetworkRequest net_req {base_url.base_url + api_data.start_api_path};
+            net_req.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
             
             auto json_doc = QJsonDocument::fromJson(QByteArray::fromStdString(api_data.req_data.toStdString()));
             auto json_obj = json_doc.object();
@@ -37,7 +38,7 @@ void send_cmd(QSharedPointer<QSqlDatabase> &db, QSharedPointer<QNetworkAccessMan
             start_cmd_obj.insert(api_token.kind, QJsonValue(api_token.token));
             start_cmd_doc.setObject(start_cmd_obj);
             
-            net_manager->post(net_req, start_cmd_doc.toJson());
+            net_manager->post(net_req, start_cmd_doc.toJson(QJsonDocument::Compact));
         }
     }
 }
