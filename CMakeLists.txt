@@ -30,8 +30,8 @@ if (IsLibrary)
             externalapi_send.cpp
     )
 else ()
-    link_directories(../TimeIsMoneyDB_CMake/cmake-build-debug)
-    include_directories(../TimeIsMoneyDB_CMake)
+    link_directories(/home/felix/QtProjects/TimeIsMoney_CMake/TimeIsMoney-TimeIsMoneyDB_CMake)
+    include_directories(/home/felix/QtProjects/TimeIsMoney_CMake/TimeIsMoney-TimeIsMoneyDB_CMake)
 
     set(PROJECT_SOURCES
             main.cpp
@@ -68,7 +68,7 @@ else ()
             Qt${QT_VERSION_MAJOR}::Widgets
             Qt${QT_VERSION_MAJOR}::Sql
             Qt${QT_VERSION_MAJOR}::Network
-            /home/felix/QtProjects/TimeIsMoney_CMake/TimeIsMoneyDB_CMake/cmake-build-debug/libTimeIsMoneyDB_CMake.so
+            /home/felix/QtProjects/TimeIsMoney_CMake/cmake-build-debug/TimeIsMoney-TimeIsMoneyDB_CMake/libTimeIsMoneyDB_CMake.so
     )
 endif ()
 

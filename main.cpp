@@ -1,7 +1,9 @@
+#include <QApplication>
+
+#include "../TimeIsMoney-TimeIsMoneyDB_CMake/include/taskdb.hpp"
+
 #include "externalapi.hpp"
 
-#include <QApplication>
-#include "../TimeIsMoneyDB_CMake/include/taskdb.hpp"
 
 int main(int argc, char *argv[])
 {
