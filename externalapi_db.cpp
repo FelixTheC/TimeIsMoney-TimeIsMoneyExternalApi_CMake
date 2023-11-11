@@ -94,8 +94,8 @@ bool update_external_api_data(QSharedPointer<QSqlDatabase> &db, ExternalApiData 
         QSqlQuery query;
         query.prepare("update api_data "
                       "set start_api = :start_path "
-                      "set stop_api = :stop_path "
-                      "set req_data = :req_data "
+                      ", stop_api = :stop_path "
+                      ", req_data = :req_data "
                       "where base_url_pk = :base_url_pk");
         query.bindValue(":start_path", api_data.start_api_path);
         query.bindValue(":stop_path", api_data.stop_api_path);
@@ -170,7 +170,7 @@ bool update_external_api_token(QSharedPointer<QSqlDatabase> &db, ExternalApiToke
         QSqlQuery query;
         query.prepare("update api_token "
                       "set kind = :kind "
-                      "set token = :token "
+                      ",token = :token "
                       "where base_url_pk = :base_url_pk");
         query.bindValue(":kind", api_token.kind);
         query.bindValue(":token", api_token.token);

@@ -1,3 +1,5 @@
+#include <QJsonArray>
+#include <QMessageBox>
 #include "externalapi_send.hpp"
 
 /// @brief Send a start ot stop cmd to the external API.
@@ -15,30 +17,46 @@ void send_cmd(QSharedPointer<QSqlDatabase> &db, QSharedPointer<QNetworkAccessMan
         
         if (!api_token.is_empty() && !api_data.is_empty())
         {
+            QJsonValue json_val;
+            QJsonArray json_val_arr;
+            QString request_data {};
+            
             QNetworkRequest net_req {base_url.base_url + api_data.start_api_path};
-            net_req.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+            net_req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
             
             auto json_doc = QJsonDocument::fromJson(QByteArray::fromStdString(api_data.req_data.toStdString()));
+            if (json_doc.isNull() || json_doc.isEmpty())
+            {
+                return;
+            }
+            
             auto json_obj = json_doc.object();
-            QJsonValue json_val;
+            request_data += api_token.kind.toLower() + "=" + api_token.token + "&";
             
-            if (send_topic == SendTopic::Start)
+            switch (send_topic)
             {
-                json_val = json_obj.value("start");
+                case SendTopic::Start:
+                    json_val = json_obj.value("start");
+                    break;
+                case SendTopic::Pause:
+                    json_val = json_obj.value("pause");
+                    break;
+                case SendTopic::Stop:
+                    json_val = json_obj.value("stop");
+                    break;
             }
             
-            if (send_topic == SendTopic::Stop)
+            if (json_val != QJsonValue::Undefined)
             {
-                json_val = json_obj.value("stop");
+                for (auto val : json_val_arr)
+                {
+                    request_data += val.toString() + "&";
+                }
+                // removing trailing `&`
+                request_data = request_data.sliced(0, request_data.size() - 1);
             }
             
-            auto start_cmd_doc = QJsonDocument();
-            auto start_cmd_obj = json_val.toObject();
-            
-            start_cmd_obj.insert(api_token.kind.toLower(), QJsonValue(api_token.token));
-            start_cmd_doc.setObject(start_cmd_obj);
-            
-            net_manager->post(net_req, start_cmd_doc.toJson(QJsonDocument::Compact));
+            net_manager->post(net_req, QByteArray::fromStdString(request_data.toStdString()));
         }
     }
 }

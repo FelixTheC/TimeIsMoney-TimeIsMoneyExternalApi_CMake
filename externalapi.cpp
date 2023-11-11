@@ -118,13 +118,10 @@ bool ExternalApi::update_external_api_token(uint base_url_pk)
     
     auto api_token = get_external_api_token(base_url_pk);
     
-    if (token != api_token.token || token_kind != api_token.kind)
-    {
-        api_token.token = token;
-        api_token.kind = token_kind;
-        
-        return ::update_external_api_token(db, api_token);
-    }
+    api_token.token = token;
+    api_token.kind = token_kind;
+    
+    return ::update_external_api_token(db, api_token);
     
     return false;
 }
@@ -137,16 +134,11 @@ bool ExternalApi::update_external_api_data(uint base_url_pk)
     
     auto api_data = get_external_api_data(base_url_pk);
     
-    if (api_data.start_api_path != start_path ||
-        api_data.stop_api_path != stop_path ||
-        api_data.req_data != req_data)
-    {
-        api_data.start_api_path = start_path;
-        api_data.stop_api_path = stop_path;
-        api_data.req_data = req_data;
-        
-        ::update_external_api_data(db, api_data);
-    }
+    api_data.start_api_path = start_path;
+    api_data.stop_api_path = stop_path;
+    api_data.req_data = req_data;
+    
+    ::update_external_api_data(db, api_data);
     
     return false;
 }

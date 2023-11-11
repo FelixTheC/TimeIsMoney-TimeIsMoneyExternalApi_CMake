@@ -17,6 +17,7 @@
 enum class SendTopic
 {
     Start,
+    Pause,
     Stop
 };
 
