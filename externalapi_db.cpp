@@ -69,10 +69,11 @@ bool insert_into_external_api_data(QSharedPointer<QSqlDatabase> &db, ExternalApi
     if (db->isOpen() && !api_data.is_empty())
     {
         QSqlQuery query;
-        query.prepare("insert into api_data (start_api, stop_api, req_data, base_url_pk)"
-                      "values (:start_path, :stop_path, :req_data, :base_url_pk);");
+        query.prepare("insert into api_data (start_api, stop_api, content_type, req_data, base_url_pk)"
+                      "values (:start_path, :stop_path, :content_type, :req_data, :base_url_pk);");
         query.bindValue(":start_path", api_data.start_api_path);
         query.bindValue(":stop_path", api_data.stop_api_path);
+        query.bindValue(":content_type", api_data.content_type);
         query.bindValue(":req_data", api_data.req_data);
         query.bindValue(":base_url_pk", api_data.base_url_pk);
         
@@ -94,11 +95,13 @@ bool update_external_api_data(QSharedPointer<QSqlDatabase> &db, ExternalApiData 
         QSqlQuery query;
         query.prepare("update api_data "
                       "set start_api = :start_path "
-                      "set stop_api = :stop_path "
-                      "set req_data = :req_data "
+                      ", stop_api = :stop_path "
+                      ", content_type = :content_type "
+                      ", req_data = :req_data "
                       "where base_url_pk = :base_url_pk");
         query.bindValue(":start_path", api_data.start_api_path);
         query.bindValue(":stop_path", api_data.stop_api_path);
+        query.bindValue(":content_type", api_data.content_type);
         query.bindValue(":req_data", api_data.req_data);
         query.bindValue(":base_url_pk", api_data.base_url_pk);
         
@@ -119,7 +122,7 @@ ExternalApiData get_external_api_data_by_base_url(QSharedPointer<QSqlDatabase> &
     if (db->isOpen())
     {
         QSqlQuery query;
-        query.prepare("select start_api, stop_api, req_data, base_url_pk "
+        query.prepare("select start_api, stop_api, content_type, req_data, base_url_pk "
                       "from api_data where base_url_pk = :base_url_pk limit 1;");
         query.bindValue(":base_url_pk", base_url_pk);
         auto res = query.exec();
@@ -129,8 +132,9 @@ ExternalApiData get_external_api_data_by_base_url(QSharedPointer<QSqlDatabase> &
             query.first();
             result.start_api_path = query.value(0).toString();
             result.stop_api_path = query.value(1).toString();
-            result.req_data = query.value(2).toString();
-            result.base_url_pk = query.value(3).toInt();
+            result.content_type = query.value(2).toString();
+            result.req_data = query.value(3).toString();
+            result.base_url_pk = query.value(4).toInt();
         }
         
         db->close();
@@ -170,7 +174,7 @@ bool update_external_api_token(QSharedPointer<QSqlDatabase> &db, ExternalApiToke
         QSqlQuery query;
         query.prepare("update api_token "
                       "set kind = :kind "
-                      "set token = :token "
+                      ",token = :token "
                       "where base_url_pk = :base_url_pk");
         query.bindValue(":kind", api_token.kind);
         query.bindValue(":token", api_token.token);
