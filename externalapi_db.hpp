@@ -27,6 +27,7 @@ struct ExternalApiData
 {
     QString start_api_path {};
     QString stop_api_path {};
+    QString content_type {};
     QString req_data {};
     uint base_url_pk = 0;
     

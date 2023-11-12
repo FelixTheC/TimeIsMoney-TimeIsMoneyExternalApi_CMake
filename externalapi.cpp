@@ -131,11 +131,13 @@ bool ExternalApi::update_external_api_data(uint base_url_pk)
     auto start_path = ui->startApiLineEdit->text();
     auto stop_path = ui->stopApiLineEdit->text();
     auto req_data = ui->requestDataTextEdit->toPlainText();
+    auto content_type = ui->contentTypeComboBox->currentText();
     
     auto api_data = get_external_api_data(base_url_pk);
     
     api_data.start_api_path = start_path;
     api_data.stop_api_path = stop_path;
+    api_data.content_type = content_type;
     api_data.req_data = req_data;
     
     ::update_external_api_data(db, api_data);
@@ -157,9 +159,10 @@ bool ExternalApi::insert_external_api_data(uint base_url_pk)
 {
     auto start_path = ui->startApiLineEdit->text();
     auto stop_path = ui->stopApiLineEdit->text();
+    auto content_type = ui->contentTypeComboBox->currentText();
     auto req_data = ui->requestDataTextEdit->toPlainText();
     
-    ExternalApiData api_data {start_path, stop_path, req_data, base_url_pk};
+    ExternalApiData api_data {start_path, stop_path, content_type, req_data, base_url_pk};
     
     return ::insert_into_external_api_data(db, api_data);
 }
@@ -228,6 +231,7 @@ void ExternalApi::init_data_from_db()
             ui->startApiLineEdit->setText(api_data.start_api_path);
             ui->stopApiLineEdit->setText(api_data.stop_api_path);
             ui->requestDataTextEdit->setText(api_data.req_data);
+            ui->contentTypeComboBox->setCurrentIndex(ui->contentTypeComboBox->findText(api_data.content_type));
         }
     }
 }

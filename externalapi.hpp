@@ -28,7 +28,7 @@ private:
     Ui::ExternalApi *ui;
     QSharedPointer<QSqlDatabase> db;
     
-    bool has_error;
+    bool has_error {};
     bool base_url_exists();
     bool api_token_exists(uint base_url_pk);
     bool api_data_exists(uint base_url_pk);
