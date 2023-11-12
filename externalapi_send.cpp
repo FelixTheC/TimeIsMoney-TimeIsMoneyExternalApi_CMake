@@ -153,8 +153,7 @@ QByteArray get_request_data(QJsonValue &&json_val,
 /// @param type the header type of the request
 void send_cmd(QSharedPointer<QSqlDatabase> &db,
               QSharedPointer<QNetworkAccessManager> &net_manager,
-              const SendTopic &send_topic,
-              const ContentType &type)
+              const SendTopic &send_topic)
 {
     auto base_url = get_base_url_external_api_base_url(db);
     
@@ -166,6 +165,20 @@ void send_cmd(QSharedPointer<QSqlDatabase> &db,
         if (!api_token.is_empty() && !api_data.is_empty())
         {
             QJsonValue json_val;
+            ContentType type;
+            
+            if (api_data.content_type == "form encoded")
+            {
+                type = ContentType::form_urlencoded;
+            }
+            else if (api_data.content_type == "json")
+            {
+                type = ContentType::raw_json;
+            }
+            else
+            {
+                type = ContentType::raw_text;
+            }
             
             auto net_req = get_network_request(base_url.base_url + api_data.start_api_path, type);
             

@@ -69,7 +69,6 @@ inline std::string auth_repr(Auth &auth)
 /// @param type the header type of the request
 void send_cmd(QSharedPointer<QSqlDatabase> &db,
               QSharedPointer<QNetworkAccessManager> &net_manager,
-              const SendTopic &send_topic,
-              const ContentType &type);
+              const SendTopic &send_topic);
 
 #endif //TIMEISMONEYEXTERNALAPI_CMAKE_EXTERNALAPI_SEND_HPP
