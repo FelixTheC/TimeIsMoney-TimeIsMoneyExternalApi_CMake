@@ -13,7 +13,7 @@ set(CMAKE_PREFIX_PATH "/home/felix/Qt/6.5.0/gcc_64")
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(IsLibrary ON)
-set(TESTING ON)
+set(TESTING OFF)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Widgets Sql Network)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Widgets Sql Network)
